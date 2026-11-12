@@ -767,7 +767,15 @@ function initLoader(): void {
         if (!enter) return playIntro();
         enter.disabled = false;
         enter.focus();
-        enter.addEventListener('click', () => void playFilm().then(playIntro), { once: true });
+        enter.addEventListener(
+          'click',
+          () => {
+            // The click is the user gesture that unlocks audio: start the street hum with the film
+            if (!sound.on) $<HTMLButtonElement>('[data-sound]')?.click();
+            void playFilm().then(playIntro);
+          },
+          { once: true },
+        );
       },
     });
   });
