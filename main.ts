@@ -279,24 +279,28 @@ function initSound(): void {
       for (let i = 0; i < length; i++) {
         // Brown noise reads as distant traffic
         last = (last + 0.02 * (Math.random() * 2 - 1)) / 1.02;
-        data[i] = last * 3.5;
+        data[i] = last * 6;
       }
       const src = ctx.createBufferSource();
       src.buffer = buffer;
       src.loop = true;
       const filter = ctx.createBiquadFilter();
       filter.type = 'lowpass';
-      filter.frequency.value = 520;
+      filter.frequency.value = 1600;
+      // Cut the sub-bass that laptop speakers cannot reproduce
+      const high = ctx.createBiquadFilter();
+      high.type = 'highpass';
+      high.frequency.value = 140;
       const gain = ctx.createGain();
       gain.gain.value = 0;
-      src.connect(filter).connect(gain).connect(ctx.destination);
+      src.connect(filter).connect(high).connect(gain).connect(ctx.destination);
       src.start();
       sound.ctx = ctx;
       sound.gain = gain;
     }
     sound.on = !sound.on;
     void sound.ctx.resume();
-    setSoundLevel(sound.on && !glState.paused ? 0.5 : 0);
+    setSoundLevel(sound.on && !glState.paused ? 0.9 : 0);
     btn.textContent = sound.on ? '[ Som on ]' : '[ Som off ]';
     btn.setAttribute('aria-pressed', String(sound.on));
   });
