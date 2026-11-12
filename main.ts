@@ -683,7 +683,45 @@ function waitForAssets(onProgress: (p: number) => void): Promise<void> {
       }),
   );
   jobs.push(document.fonts.ready.then(tick));
+  const film = $<HTMLVideoElement>('.loader__film');
+  if (film && film.readyState < 3) {
+    // Wait for the cold-open film, but never block the page on it
+    jobs.push(
+      new Promise<void>((resolve) => {
+        film.addEventListener('canplaythrough', () => resolve(), { once: true });
+        film.addEventListener('error', () => resolve(), { once: true });
+        window.setTimeout(resolve, 8000);
+      }),
+    );
+  }
   return Promise.all(jobs).then(() => undefined);
+}
+
+const FILM_SECONDS = 3.6;
+
+/** Cold open: a few seconds of the crosswalk film before the hero. Click skips. */
+function playFilm(): Promise<void> {
+  const loader = $('.loader');
+  const film = $<HTMLVideoElement>('.loader__film');
+  if (!loader || !film || reducedMotion || film.readyState < 2) return Promise.resolve();
+
+  return new Promise<void>((resolve) => {
+    let finished = false;
+    const finish = (): void => {
+      if (finished) return;
+      finished = true;
+      loader.removeEventListener('click', finish);
+      resolve();
+    };
+    gsap.to('.loader__mark, .loader__title, .loader__enter, .loader__count', { autoAlpha: 0, duration: 0.4 });
+    gsap.fromTo(film, { autoAlpha: 0, scale: 1.08 }, { autoAlpha: 1, scale: 1, duration: 1.2, ease: 'power2.out' });
+    gsap.to('.loader__skip', { autoAlpha: 1, duration: 0.6, delay: 0.6 });
+    film.currentTime = 0;
+    film.play().catch(finish);
+    film.addEventListener('ended', finish, { once: true });
+    gsap.delayedCall(FILM_SECONDS, finish);
+    gsap.delayedCall(0.5, () => loader.addEventListener('click', finish));
+  });
 }
 
 function playIntro(): void {
@@ -729,7 +767,7 @@ function initLoader(): void {
         if (!enter) return playIntro();
         enter.disabled = false;
         enter.focus();
-        enter.addEventListener('click', playIntro, { once: true });
+        enter.addEventListener('click', () => void playFilm().then(playIntro), { once: true });
       },
     });
   });

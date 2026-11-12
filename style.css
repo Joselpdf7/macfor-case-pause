@@ -90,6 +90,8 @@ body.is-paused .grain { animation-play-state: paused; }
 .loader__enter { font-size: 12px; font-weight: 500; padding: 10px 14px; opacity: 0; transition: opacity 0.5s, color 0.3s; }
 .loader__enter:not(:disabled) { opacity: 1; }
 .loader__enter:hover { color: var(--yellow); }
+.loader__film { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; visibility: hidden; }
+.loader__skip { position: absolute; bottom: var(--pad); left: 0; right: 0; text-align: center; font-size: 12px; font-weight: 500; opacity: 0; visibility: hidden; }
 .loader__curtain { position: absolute; inset: 0; display: flex; pointer-events: none; }
 .loader__curtain i { flex: 1; background: var(--yellow); transform: scaleY(0); transform-origin: 50% 100%; }
 
