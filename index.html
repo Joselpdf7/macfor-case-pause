@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>No trânsito, aperte o pause | Macfor</title>
+  <meta name="description" content="Duas listras. Um botão de pause. Case Macfor para Prefeitura de São Paulo e CET." />
+  <link rel="preload" href="./assets/fonts/bigshoulders-stencil.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="./assets/fonts/inter-tight.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body data-hud="light" class="is-loading">
+  <!-- Film grain -->
+  <div class="grain" aria-hidden="true"></div>
+
+  <!-- Preloader -->
+  <div class="loader" role="status" aria-live="polite">
+    <span class="loader__count" data-loader-count>000</span>
+    <div class="loader__mark" aria-hidden="true"><i></i><i></i></div>
+    <p class="loader__title">No trânsito, aperte o pause</p>
+    <button class="loader__enter" type="button" data-enter disabled>[ Entrar ]</button>
+    <div class="loader__curtain" aria-hidden="true"><i></i><i></i></div>
+  </div>
+
+  <!-- Fixed HUD -->
+  <header class="hud">
+    <a class="hud__brand" href="#topo">Macfor</a>
+    <a class="hud__logo" href="#topo" aria-label="Aperte o pause">Aperte o Pause <span class="pause-glyph" aria-hidden="true"><i></i><i></i></span></a>
+    <button class="hud__sound" type="button" data-sound aria-pressed="false">[ Som off ]</button>
+    <span class="hud__count" aria-hidden="true">[ <b data-scroll-count>000</b> ]</span>
+    <a class="hud__right" href="#creditos">Créditos</a>
+  </header>
+  <div class="hud-foot" aria-hidden="true">
+    <span data-scroll-hint>Role para continuar</span>
+    <span>[ SP ]</span>
+  </div>
+
+  <!-- Custom cursor -->
+  <div class="cursor" aria-hidden="true"><span class="cursor__label"></span></div>
+
+  <!-- 3D pause button -->
+  <canvas class="gl" aria-hidden="true"></canvas>
+
+  <main id="topo">
+    <!-- 00 HERO -->
+    <section class="hero" data-hud="dark">
+      <p class="hero__kicker">Prefeitura de São Paulo e CET apresentam</p>
+      <h1 class="hero__title" aria-label="Aperte o pause antes de atravessar">
+        <span class="line"><span>Aperte</span></span>
+        <span class="line line--indent"><span>o pause</span></span>
+        <span class="line"><span>antes de</span></span>
+        <span class="line line--indent"><span>atravessar</span></span>
+      </h1>
+    </section>
+
+    <!-- 01 MANIFESTO -->
+    <section class="manifesto" data-hud="dark">
+      <p class="manifesto__p" data-words>O acesso diário à tecnologia só cresce a cada dia que passa.</p>
+      <p class="manifesto__p" data-words>Principalmente em grandes cidades, como São Paulo, onde o número de óbitos de pedestres nas ruas só aumenta.</p>
+      <p class="manifesto__p manifesto__p--mark" data-words>Mas isso não é mera coincidência.</p>
+    </section>
+
+    <!-- 02 DADOS -->
+    <section class="dados" data-hud="light">
+      <div class="dados__bg" data-parallax><img src="./img/travessia-noite.jpg" alt="" /></div>
+      <div class="dados__inner">
+        <p class="label">O problema</p>
+        <ul class="dados__grid">
+          <li class="dado">
+            <span class="dado__idx">(01)</span>
+            <strong class="dado__num" data-scramble>+400</strong>
+            <p>pedestres morreram atropelados na cidade de São Paulo, só em 2025.</p>
+          </li>
+          <li class="dado">
+            <span class="dado__idx">(02)</span>
+            <strong class="dado__num" data-scramble>1/3</strong>
+            <p>Quase 1 em cada 3 pedestres atravessa a rua distraído.</p>
+          </li>
+          <li class="dado">
+            <span class="dado__idx">(03)</span>
+            <strong class="dado__num" data-scramble>4X</strong>
+            <p>Quem digita no celular tem quase 4 vezes mais chance de atravessar de forma insegura.</p>
+          </li>
+          <li class="dado">
+            <span class="dado__idx">(04)</span>
+            <strong class="dado__num" data-scramble>2017</strong>
+            <p>Em 2026, já temos o pior início de ano em mortes de pedestres desde 2017.</p>
+          </li>
+        </ul>
+        <div class="dados__foot">
+          <p>Há três anos seguidos, a capital paulista ultrapassa os <b>1.000 mortos</b> no trânsito.</p>
+          <p>Os motociclistas são as principais vítimas, com <b>475 mortes</b> em 2025.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 03 PERGUNTA -->
+    <section class="pergunta" data-hud="light">
+      <div class="pergunta__media" data-clip><img src="./img/distraida-noite.jpg" alt="Mulher atravessa a faixa de pedestres olhando para o celular, à noite" /></div>
+      <h2 class="pergunta__title" data-words>Como chamar a atenção das pessoas para a importância de tomar cuidado ao atravessar as ruas?</h2>
+    </section>
+
+    <!-- 04 INSIGHT (pinned) -->
+    <section class="insight" data-hud="light">
+      <div class="insight__stage">
+        <p class="label insight__label">O insight</p>
+        <svg class="insight__svg" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+          <g class="stripes">
+            <rect class="stripe" x="190" y="280" width="100" height="340" />
+            <rect class="stripe" x="350" y="280" width="100" height="340" />
+            <rect class="stripe" x="510" y="280" width="100" height="340" />
+            <rect class="stripe stripe--on" x="670" y="280" width="100" height="340" />
+            <rect class="stripe stripe--on" x="830" y="280" width="100" height="340" />
+            <rect class="stripe" x="990" y="280" width="100" height="340" />
+            <rect class="stripe" x="1150" y="280" width="100" height="340" />
+            <rect class="stripe" x="1310" y="280" width="100" height="340" />
+          </g>
+          <circle class="ring" cx="800" cy="450" r="300" transform="rotate(-90 800 450)" />
+        </svg>
+        <h2 class="insight__a"><span class="line"><span>Duas listras.</span></span></h2>
+        <h2 class="insight__b"><span class="line"><span>Um botão de pause.</span></span></h2>
+        <p class="insight__sub">Sempre esteve ali. Ninguém percebeu.</p>
+        <p class="insight__lock">A partir desse insight, usamos o símbolo de pause para representar graficamente a campanha.</p>
+      </div>
+    </section>
+
+    <!-- 05 SEGURE PARA PAUSAR (interactive) -->
+    <section class="hold" data-hud="dark" data-hold>
+      <div class="hold__rows" aria-hidden="true"></div>
+      <div class="hold__center">
+        <button class="hold__btn" type="button" data-hold-btn aria-label="Segure para pausar">
+          <svg viewBox="0 0 200 200" aria-hidden="true">
+            <circle class="hold__track" cx="100" cy="100" r="92" />
+            <circle class="hold__prog" cx="100" cy="100" r="92" />
+          </svg>
+          <span class="pause-glyph pause-glyph--xl" aria-hidden="true"><i></i><i></i></span>
+        </button>
+        <p class="hold__hint" data-hold-hint>Segure para pausar</p>
+      </div>
+      <p class="hold__msg" aria-live="polite"><span class="line"><span>Pronto. Agora olhe para os dois lados.</span></span></p>
+    </section>
+
+    <!-- 06 CAMINHOS (rendered from data in main.ts) -->
+    <div id="caminhos"></div>
+
+    <!-- 07 FECHAMENTO -->
+    <section class="fecho" data-hud="dark">
+      <p class="label">O efeito</p>
+      <h2 class="fecho__title" data-words>Um segundo de atenção que pode salvar vidas.</h2>
+      <div class="fecho__cols">
+        <p>Prefeitura de São Paulo e CET mapeiam os pontos cegos da cidade para tornar visíveis os riscos de pedestres e ciclistas.</p>
+        <p>Em pontos estratégicos, intervenções transformam a própria rua em alerta: chamam a atenção de quem caminha olhando para a tela e criam o segundo que separa a distração da tragédia.</p>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="foot" id="creditos" data-hud="light">
+    <div class="foot__cols">
+      <div><span class="label">Agência</span><p>Macfor / 2026</p></div>
+      <div><span class="label">Clientes</span><p>Prefeitura de São Paulo<br />CET</p></div>
+      <div><span class="label">Campanha</span><p>No trânsito,<br />aperte o pause</p></div>
+      <div><span class="label">Contato</span><p><a href="https://www.macfor.com.br" target="_blank" rel="noopener">www.macfor.com.br</a></p></div>
+    </div>
+    <p class="foot__claim">Transformamos micro-momentos em grandes impactos</p>
+    <p class="foot__giant" aria-hidden="true"><span>Aperte o pause</span></p>
+  </footer>
+
+  <script type="module" src="./main.ts"></script>
+</body>
+</html>
